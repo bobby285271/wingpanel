@@ -182,28 +182,8 @@ public class WingpanelInterface.BackgroundManager : Object {
 
         if (has_maximized_window) {
             new_state = BackgroundState.MAXIMIZED;
-        } else if (bk_color_info == null) {
-            new_state = BackgroundState.TRANSLUCENT_LIGHT;
         } else {
-            var luminance_std = Math.sqrt (bk_color_info.luminance_variance);
-
-            bool bg_is_busy = luminance_std > STD_THRESHOLD ||
-                (bk_color_info.mean_luminance < LUMINANCE_THRESHOLD &&
-                bk_color_info.mean_luminance + 1.645 * luminance_std > LUMINANCE_THRESHOLD ) ||
-                bk_color_info.mean_acutance > ACUTANCE_THRESHOLD;
-
-            bool bg_is_dark = bk_color_info.mean_luminance > LUMINANCE_THRESHOLD;
-            bool bg_is_busy_dark = bk_color_info.mean_luminance * 1.25 > LUMINANCE_THRESHOLD;
-
-            if (bg_is_busy && bg_is_busy_dark) {
-                new_state = BackgroundState.TRANSLUCENT_DARK;
-            } else if (bg_is_busy) {
-                new_state = BackgroundState.TRANSLUCENT_LIGHT;
-            } else if (bg_is_dark) {
-                new_state = BackgroundState.DARK;
-            } else {
-                new_state = BackgroundState.LIGHT;
-            }
+            new_state = BackgroundState.TRANSLUCENT_LIGHT;
         }
 
         if (new_state != current_state) {
